@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.EnhancedTouch;
 using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 
 public class PlayerTouchMovement : MonoBehaviour
 {
     [SerializeField]
-    private Vector2 JoystickSize = new Vector2 (300, 300);
+    private Vector2 JoystickSize = new Vector2 (100, 100);
 
     [SerializeField]
     private FloatingJoystick Joystick;
 
     [SerializeField]
-    //private NavMeshAgente Player;
+    private float speed = 3.5f;
 
     private Finger MovementFinger;
     private Vector2 MovementAmount;
@@ -106,8 +107,9 @@ public class PlayerTouchMovement : MonoBehaviour
 
     private void Update()
     {
-        /*Vector3 scaledMovement = Player.speed * Time.deltaTime * new Vector3(MovementAmount.x, 0, MovementAmount.y);
+        Vector3 scaledMovement = speed * Time.deltaTime * new Vector3(MovementAmount.x, 0, MovementAmount.y);
 
-        Player.transform.LookAt(Player.transform.position + scaledMovement, Vector2.up);*/
+        //transform.LookAt(transform.position + scaledMovement, Vector3.up);
+        transform.Translate(scaledMovement);
     }
 }
