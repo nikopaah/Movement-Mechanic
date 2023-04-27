@@ -10,6 +10,9 @@ using ETouch = UnityEngine.InputSystem.EnhancedTouch;
 public class PlayerTouchMovement : MonoBehaviour
 {
     [SerializeField]
+    private GameObject Glider;
+
+    [SerializeField]
     private Vector2 JoystickSize = new Vector2 (100, 100);
 
     [SerializeField]
@@ -108,8 +111,13 @@ public class PlayerTouchMovement : MonoBehaviour
     private void Update()
     {
         Vector3 scaledMovement = speed * Time.deltaTime * new Vector3(MovementAmount.x, 0, MovementAmount.y);
-
+        Fly(MovementAmount);
         //transform.LookAt(transform.position + scaledMovement, Vector3.up);
         transform.Translate(scaledMovement);
+    }
+
+    private void Fly(Vector2 Rotate) {
+        transform.Rotate(Rotate.x, 0, Rotate.y);
+        Glider.transform.Rotate(Rotate.x, 0, Rotate.y);
     }
 }
