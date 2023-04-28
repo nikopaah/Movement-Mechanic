@@ -114,10 +114,36 @@ public class PlayerTouchMovement : MonoBehaviour
         Fly(MovementAmount);
         //transform.LookAt(transform.position + scaledMovement, Vector3.up);
         transform.Translate(scaledMovement);
+
+        CheckCollissionWithGround();
+
+        //Keep the camera with the player (and smooth)
+        Vector3 moveCamTo = transform.position - transform.forward * 10.0f + Vector3.up * 5.0f;
+        Camera.main.transform.position = moveCamTo;
+        Camera.main.transform.LookAt(transform.position);
+    }
+
+    private void CheckCollissionWithGround()
+    {
+        float terrainHeight = Terrain.activeTerrain.SampleHeight(transform.position);
+        if(terrainHeight > transform.position.y)
+        {
+            transform.position = new Vector3(transform.position.x,
+                                             terrainHeight,
+                                             transform.position.z);
+        }
     }
 
     private void Fly(Vector2 Rotate) {
-        transform.Rotate(Rotate.x, 0, Rotate.y);
-        Glider.transform.Rotate(Rotate.x, 0, Rotate.y);
+        bool rotating = true;
+        //transform.Rotate(0, 0, Rotate.y);
+        if(rotating) Glider.transform.Rotate(0, 0, -0.1f * Rotate.x);
+
+        //print(Glider.transform.rotation.z);
+
+        // Hovering LEFT
+        if (Glider.transform.rotation.z < -0.2f) Glider.transform.rotation = Quaternion.Euler(0, 0, -23f);
+        // Hovering RIGHT
+        if (Glider.transform.rotation.z > 0.2f) Glider.transform.rotation = Quaternion.Euler(0, 0, 23f);
     }
 }
